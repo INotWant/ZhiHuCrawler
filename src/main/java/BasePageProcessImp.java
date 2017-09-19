@@ -18,6 +18,12 @@ public class BasePageProcessImp implements BasePageProcessInterface {
         if (list != null && list.size() >= 2) {
             page.putField("关注者", list.get(0));
             page.putField("浏览人数", list.get(1));
+            if (Statistics.getInstance() != null) {
+                Statistics statistics = Statistics.getInstance();
+                statistics.increase();
+                if (!statistics.compareDemandNum())
+                    SpiderManage.getInstance().deleteAll();
+            }
         } else
             page.setSkip(true);
     }
@@ -26,9 +32,12 @@ public class BasePageProcessImp implements BasePageProcessInterface {
         Json json = page.getJson();
         // Json 解析
         String content = json.jsonPath("$..msg").get();
-        content = content.substring(2, content.length() - 2);
-        // 特殊符号转换
-        content = transfer(content);
+        if (content.length() > 0) {
+            content = content.substring(2, content.length() - 2);
+            // 特殊符号转换
+            content = transfer(content);
+        }else
+            page.setSkip(true);
         return new Html(content);
     }
 
@@ -51,19 +60,18 @@ public class BasePageProcessImp implements BasePageProcessInterface {
                 request.setMethod(HttpConstant.Method.POST);
                 Spider spider = Spider.create(new ZhihuMorePageProcessor())
                         .addPipeline(new ConsolePipeline())
-                        .addPipeline(new FilePipeline("./result/"))
+                        .addPipeline(new OneFilePipeline("./result.txt"))
                         .addRequest(request)
-                        .thread(5);
+                        .thread(7);
+                Thread.sleep(8000);
                 SpiderManage spiderManage = SpiderManage.getInstance();
                 spiderManage.addSpider(spider);
-                Thread.sleep(15000);
                 spider.runAsync();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
-
 
     private String transfer(String jsonStr) {
         jsonStr = jsonStr.replaceAll("\\\\\"", "\"");

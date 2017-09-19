@@ -21,10 +21,13 @@ public class SpiderManage {
     public synchronized void deleteAll() {
         if (spiders.size() > 0) {
             for (Spider spider : spiders) {
-                if (spider != null)
+                if (spider != null) {
                     spider.stop();
+                }
             }
         }
     }
+
+
 
 }

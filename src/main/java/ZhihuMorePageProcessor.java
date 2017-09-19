@@ -11,7 +11,7 @@ public class ZhihuMorePageProcessor extends BasePageProcessImp implements PagePr
 
     private Site site = Site.me()
             .setRetrySleepTime(10)
-            .setSleepTime(2000)
+            .setSleepTime(1000)
             .setTimeOut(10000)
             .setCharset("UTF-8");
 

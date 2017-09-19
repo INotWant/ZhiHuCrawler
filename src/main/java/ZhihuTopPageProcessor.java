@@ -13,7 +13,7 @@ public class ZhihuTopPageProcessor extends BasePageProcessImp implements PagePro
 
     private Site site = Site.me()
             .setRetrySleepTime(10)
-            .setSleepTime(2000)
+            .setSleepTime(1000)
             .setTimeOut(10000)
             .setCharset("UTF-8")
             .setDomain("www.zhihu.com")
@@ -37,12 +37,13 @@ public class ZhihuTopPageProcessor extends BasePageProcessImp implements PagePro
     }
 
     public static void main(String[] args) {
+        Statistics.getInstance(Integer.MAX_VALUE);
         SpiderManage spiderManage = SpiderManage.getInstance();
         Spider spider = Spider.create(new ZhihuTopPageProcessor())
                 .addUrl("https://www.zhihu.com/topic#互联网")
                 .addPipeline(new ConsolePipeline())
-                .addPipeline(new FilePipeline("./result/"))
-                .thread(5);
+                .addPipeline(new OneFilePipeline("./result.txt"))
+                .thread(7);
         spiderManage.addSpider(spider);
         spider.run();
     }
