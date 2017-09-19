@@ -32,7 +32,7 @@ public class BasePageProcessImp implements BasePageProcessInterface {
         Json json = page.getJson();
         // Json 解析
         String content = json.jsonPath("$..msg").get();
-        if (content.length() > 0) {
+        if (content.length() > 4) {
             content = content.substring(2, content.length() - 2);
             // 特殊符号转换
             content = transfer(content);
