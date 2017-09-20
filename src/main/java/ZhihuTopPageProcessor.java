@@ -1,50 +1,40 @@
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
-import us.codecraft.webmagic.Spider;
-import us.codecraft.webmagic.pipeline.ConsolePipeline;
-import us.codecraft.webmagic.pipeline.FilePipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
+import us.codecraft.webmagic.selector.Json;
+
+import java.util.List;
 
 /**
  * @author kissx on 2017/9/18.
- * 爬取知乎互联网 ----- topic
+ *         爬取知乎互联网 ----- topic
  */
 public class ZhihuTopPageProcessor extends BasePageProcessImp implements PageProcessor {
 
-    private Site site = Site.me()
-            .setRetrySleepTime(10)
-            .setSleepTime(1000)
-            .setTimeOut(10000)
-            .setCharset("UTF-8")
-            .setDomain("www.zhihu.com")
-            .addCookie("z_c0", "Mi4xZWNrSUFnQUFBQUFBWU1KM2tzeGtEQmNBQUFCaEFsVk43c2JtV1FEYS1JcFhxQklPWDZoZ2JtRmhFTTdtNGV0WDhn|1505704430|ae5934e4cddf1b5c62347e78e0cadb9cd15a4ce0");
+    private String fileName;
+    private Site site;
 
+    public ZhihuTopPageProcessor(String fileName, String cookie) {
+        this.fileName = fileName;
+        site = Site.me()
+                .setRetrySleepTime(10)
+                .setSleepTime(1000)
+                .setTimeOut(10000)
+                .setCharset("UTF-8")
+                .setDomain("www.zhihu.com")
+                .addCookie("z_c0", cookie);
+    }
 
     @Override
     public void process(Page page) {
-        String URL_QUESTION = "https://www\\.zhihu\\.com/question/.*";
-        if (page.getUrl().regex(URL_QUESTION).match()) {
-            contentProcess(page);
-        } else {
-            addTargetRequests(page.getHtml(), page);
-            startUpSpider(page.getHtml(), "//div[@class=\"feed-item feed-item-hook  folding\"]/@data-score");
-        }
+        List<String> topicList = page.getHtml().xpath("//li[@class=\"zm-topic-cat-item\"]/@data-id").all();
+        List<String> topicNameList = page.getHtml().xpath("//li[@class=\"zm-topic-cat-item\"]/a/text()").all();
+        int i = topicNameList.indexOf(fileName.substring(0, fileName.lastIndexOf(".")));
+        startUpSpider(page.getHtml(), fileName, topicList.get(i));
     }
 
     @Override
     public Site getSite() {
         return site;
-    }
-
-    public static void main(String[] args) {
-        Statistics.getInstance(Integer.MAX_VALUE);
-        SpiderManage spiderManage = SpiderManage.getInstance();
-        Spider spider = Spider.create(new ZhihuTopPageProcessor())
-                .addUrl("https://www.zhihu.com/topic#互联网")
-                .addPipeline(new ConsolePipeline())
-                .addPipeline(new OneFilePipeline("./result.txt"))
-                .thread(7);
-        spiderManage.addSpider(spider);
-        spider.run();
     }
 }

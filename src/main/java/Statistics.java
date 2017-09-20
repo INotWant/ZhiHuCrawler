@@ -20,8 +20,6 @@ public class Statistics {
     }
 
     public static Statistics getInstance() {
-        if (statistics == null)
-            throw new RuntimeException("Statistics 为空，请先使用 getInstance(int) 创建！");
         return statistics;
     }
 

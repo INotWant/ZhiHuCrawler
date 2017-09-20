@@ -9,6 +9,14 @@ import us.codecraft.webmagic.selector.Html;
  */
 public class ZhihuMorePageProcessor extends BasePageProcessImp implements PageProcessor {
 
+    private String fileName;
+    private String topic_id;
+
+    public ZhihuMorePageProcessor(String fileName,String topic_id) {
+        this.fileName = fileName;
+        this.topic_id = topic_id;
+    }
+
     private Site site = Site.me()
             .setRetrySleepTime(10)
             .setSleepTime(1000)
@@ -23,7 +31,7 @@ public class ZhihuMorePageProcessor extends BasePageProcessImp implements PagePr
         } else {
             Html html = jsonProcess(page);
             addTargetRequests(html, page);
-            startUpSpider(html, "//div[@class=\"feed-item feed-item-hook  folding\"]/@data-score");
+            startUpSpider(html,fileName,topic_id);
         }
     }
 

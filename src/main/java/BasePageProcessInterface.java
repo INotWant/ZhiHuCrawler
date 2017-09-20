@@ -6,5 +6,5 @@ public interface BasePageProcessInterface {
     void contentProcess(Page page);
     Html jsonProcess(Page page);
     void addTargetRequests(Html html,Page page);
-    void startUpSpider(Html html,String xPath);
+    void startUpSpider(Html html,String fileName,String topic_id);
 }
