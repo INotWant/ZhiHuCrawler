@@ -1,3 +1,5 @@
+package ZhiHuTopics;
+
 public class Statistics {
 
 

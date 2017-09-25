@@ -1,7 +1,8 @@
+package ZhiHuTopics;
+
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
-import us.codecraft.webmagic.selector.Json;
 
 import java.util.List;
 

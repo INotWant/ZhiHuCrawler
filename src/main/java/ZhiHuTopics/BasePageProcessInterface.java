@@ -1,3 +1,5 @@
+package ZhiHuTopics;
+
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.selector.Html;
 

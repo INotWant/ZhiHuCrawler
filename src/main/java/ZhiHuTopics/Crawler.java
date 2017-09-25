@@ -1,3 +1,5 @@
+package ZhiHuTopics;
+
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.pipeline.ConsolePipeline;
 
