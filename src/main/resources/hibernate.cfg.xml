@@ -5,7 +5,7 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql:///hibernate</property>
+        <property name="hibernate.connection.url">jdbc:mysql:///zhihu</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">111111</property>
 
@@ -16,8 +16,8 @@
         <!--配置 session 绑定到本地线程-->
         <property name="hibernate.current_session_context_class">thread</property>
 
-        <mapping resource="VAnalysis/entity/answer.hbm.xml"/>
-        <mapping resource="VAnalysis/entity/VUser.hbm.xml"/>
+        <mapping resource="answer.hbm.xml"/>
+        <mapping resource="VUser.hbm.xml"/>
 
     </session-factory>
 </hibernate-configuration>

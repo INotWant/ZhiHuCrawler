@@ -1,5 +1,7 @@
 package VAnalysis.pageProcess;
 
+import VAnalysis.utils.SessionFactoryUtils;
+import org.hibernate.SessionFactory;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
@@ -8,6 +10,8 @@ import us.codecraft.webmagic.processor.PageProcessor;
  * @author kissx on 2017/9/25.
  */
 public class VUserPageProcess implements PageProcessor {
+
+    private static SessionFactory sessionFactory = SessionFactoryUtils.getSessionFactory();
 
     private Site site = Site
             .me()
@@ -26,5 +30,9 @@ public class VUserPageProcess implements PageProcessor {
     @Override
     public Site getSite() {
         return site;
+    }
+
+    public static void main(String[] args) {
+
     }
 }
