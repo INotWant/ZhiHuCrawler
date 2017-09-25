@@ -13,7 +13,7 @@ public class SessionFactoryUtils {
 
     static {
         CONFIGURATION = new Configuration();
-        CONFIGURATION.configure("");
+        CONFIGURATION.configure("VAnalysis/hibernate.cfg.xml");
         SESSION_FACTORY =  CONFIGURATION.buildSessionFactory();
     }
 
