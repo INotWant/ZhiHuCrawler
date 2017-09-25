@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="ZhiHuCrawler" target="1.8" />
+      <module name="ZhiHuCrawler" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

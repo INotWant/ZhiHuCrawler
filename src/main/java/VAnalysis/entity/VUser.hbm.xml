@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="VAnalysis.entity.VUser" table="t_VUser">
+        <id name="userId" column="userId">
+            <generator class="native"/>
+        </id>
+        <property name="userName" column="userName"/>
+        <set name="answerSet" cascade="save-update,delete">
+            <key column="userId"/>
+            <one-to-many class="VAnalysis.entity.Answer"/>
+        </set>
+    </class>
+</hibernate-mapping>

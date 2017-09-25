@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="VAnalysis.entity.Answer" table="t_answer">
+        <id name="aId" column="aId">
+            <generator class="native"/>
+        </id>
+        <property name="question" column="question"/>
+        <property name="answerContent" column="aContent"/>
+        <property name="follower" column="follower"/>
+        <many-to-one name="vUser" column="userId" class="VAnalysis.entity.VUser"/>
+    </class>
+</hibernate-mapping>
