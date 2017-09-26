@@ -8,6 +8,7 @@ public class Answer {
     private Integer aId;
     private String question;
     private String answerContent;
+    private String time;
     private Integer follower;
 
     private VUser vUser;
@@ -50,5 +51,13 @@ public class Answer {
 
     public void setvUser(VUser vUser) {
         this.vUser = vUser;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getTime() {
+        return time;
     }
 }

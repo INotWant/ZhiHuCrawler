@@ -10,6 +10,7 @@
         <property name="question" column="question"/>
         <property name="answerContent" column="aContent"/>
         <property name="follower" column="follower"/>
+        <property name="time" column="time"/>
         <many-to-one name="vUser" column="userId" class="VAnalysis.entity.VUser"/>
     </class>
 </hibernate-mapping>
