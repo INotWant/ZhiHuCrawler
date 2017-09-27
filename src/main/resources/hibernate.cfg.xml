@@ -19,5 +19,7 @@
         <mapping resource="answer.hbm.xml"/>
         <mapping resource="VUser.hbm.xml"/>
 
+
+
     </session-factory>
 </hibernate-configuration>

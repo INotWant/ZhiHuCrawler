@@ -14,14 +14,14 @@ public class SessionFactoryUtils {
     static {
         CONFIGURATION = new Configuration();
         CONFIGURATION.configure();
-        SESSION_FACTORY =  CONFIGURATION.buildSessionFactory();
+        SESSION_FACTORY = CONFIGURATION.buildSessionFactory();
     }
 
-    public static SessionFactory getSessionFactory(){
+    public static SessionFactory getSessionFactory() {
         return SESSION_FACTORY;
     }
 
-    public static Session getCurrentSession(){
+    public static Session getCurrentSession() {
         return SESSION_FACTORY.getCurrentSession();
     }
 
