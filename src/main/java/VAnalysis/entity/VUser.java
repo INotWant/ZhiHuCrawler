@@ -11,6 +11,8 @@ public class VUser {
     private Integer userId;
     private String userName;
     private String homePage;
+    private Integer following;   // 关注
+    private Integer followers;   // 被关注
 
     private Set<Answer> answerSet = new HashSet<>();
 
@@ -44,5 +46,21 @@ public class VUser {
 
     public void setHomePage(String homePage) {
         this.homePage = homePage;
+    }
+
+    public Integer getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(Integer followers) {
+        this.followers = followers;
+    }
+
+    public void setFollowing(Integer following) {
+        this.following = following;
+    }
+
+    public Integer getFollowing() {
+        return following;
     }
 }

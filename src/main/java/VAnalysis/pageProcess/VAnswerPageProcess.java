@@ -13,6 +13,8 @@ import us.codecraft.webmagic.selector.Json;
 
 import java.util.List;
 
+import static VAnalysis.utils.Utils.saveObj;
+
 /**
  * @author kissx on 2017/9/25.
  *         <p>
@@ -81,16 +83,6 @@ public class VAnswerPageProcess implements PageProcessor {
     @Override
     public Site getSite() {
         return site;
-    }
-
-    private <T> void saveObj(Session session, Transaction transaction, T obj) {
-        try {
-            session.save(obj);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null)
-                transaction.rollback();
-        }
     }
 
 }

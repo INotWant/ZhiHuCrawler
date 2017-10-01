@@ -8,6 +8,9 @@
             <generator class="native"/>
         </id>
         <property name="userName" column="userName"/>
+        <property name="homePage" column="homePage"/>
+        <property name="following" column="following"/>
+        <property name="followers" column="followers"/>
         <set name="answerSet" cascade="save-update,delete">
             <key column="userId"/>
             <one-to-many class="VAnalysis.entity.Answer"/>
