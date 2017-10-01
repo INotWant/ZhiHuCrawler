@@ -10,6 +10,7 @@ public class VUser {
 
     private Integer userId;
     private String userName;
+    private String homePage;
 
     private Set<Answer> answerSet = new HashSet<>();
 
@@ -35,5 +36,13 @@ public class VUser {
 
     public void setAnswerSet(Set<Answer> answerSet) {
         this.answerSet = answerSet;
+    }
+
+    public String getHomePage() {
+        return homePage;
+    }
+
+    public void setHomePage(String homePage) {
+        this.homePage = homePage;
     }
 }
