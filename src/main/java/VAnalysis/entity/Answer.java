@@ -9,7 +9,9 @@ public class Answer {
     private String question;
     private String answerContent;
     private String time;
-    private Integer follower;
+    private Integer approver;
+    private Integer follower;   //该问题的关注者
+    private Integer browser;    //该问题的浏览者
 
     private VUser vUser;
 
@@ -59,5 +61,21 @@ public class Answer {
 
     public String getTime() {
         return time;
+    }
+
+    public Integer getApprover() {
+        return approver;
+    }
+
+    public void setApprover(Integer approver) {
+        this.approver = approver;
+    }
+
+    public Integer getBrowser() {
+        return browser;
+    }
+
+    public void setBrowser(Integer browser) {
+        this.browser = browser;
     }
 }

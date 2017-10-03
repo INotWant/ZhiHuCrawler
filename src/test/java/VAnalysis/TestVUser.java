@@ -4,7 +4,6 @@ import VAnalysis.pageProcess.VUserPageProcess;
 import org.junit.Test;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.pipeline.ConsolePipeline;
-import us.codecraft.webmagic.scheduler.QueueScheduler;
 
 /**
  * @author kissx on 2017/10/1.

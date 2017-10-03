@@ -8,8 +8,10 @@
             <generator class="native"/>
         </id>
         <property name="question" column="question"/>
-        <property name="answerContent" column="aContent"/>
+        <property name="answerContent" column="aContent" type="text"/>
+        <property name="approver" column="approver"/>
         <property name="follower" column="follower"/>
+        <property name="browser" column="browser"/>
         <property name="time" column="time"/>
         <many-to-one name="vUser" column="userId" class="VAnalysis.entity.VUser"/>
     </class>
