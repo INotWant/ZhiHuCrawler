@@ -1,4 +1,4 @@
-package ZhiHuTopics;
+package ZhiHuTopics.other;
 
 import us.codecraft.webmagic.Spider;
 

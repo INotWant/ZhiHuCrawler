@@ -1,4 +1,4 @@
-package ZhiHuTopics;
+package ZhiHuTopics.other;
 
 public class Statistics {
 

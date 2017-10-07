@@ -1,19 +1,21 @@
 package ZhiHuTopics;
 
+import ZhiHuTopics.PageProcessor.ZhihuTopicPageProcessor;
+import ZhiHuTopics.PipeLine.OneFilePipeline;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.pipeline.ConsolePipeline;
 import us.codecraft.webmagic.pipeline.Pipeline;
 
 /**
+ * 爬取知乎某话题下 question 的入口类
+ * <p>
+ * 爬取的结果：
+ * url:	https://www.zhihu.com/question/41609070
+ * 标题:	既然有http 请求，为什么还要用rpc调用？
+ * 关注者:	888
+ * 浏览人数:	66328
+ *
  * @author kissx on 2017/9/20.
- *         <p>
- *         爬取知乎某话题下 question 的入口类
- *         <p>
- *         爬取的结果：
- *         url:	https://www.zhihu.com/question/41609070
- *         标题:	既然有http 请求，为什么还要用rpc调用？
- *         关注者:	888
- *         浏览人数:	66328
  */
 public class Crawler {
 
@@ -36,7 +38,7 @@ public class Crawler {
      */
     public void crawlingTopic(String url) {
         String fileName = url.substring(url.lastIndexOf("#") + 1, url.length()) + ".txt";
-        crawlingTopic(url, 5, new ConsolePipeline(), new OneFilePipeline(fileName));
+        crawlingTopic(url, 2, new ConsolePipeline(), new OneFilePipeline(fileName));
     }
 
     /**
