@@ -5,14 +5,20 @@ import us.codecraft.webmagic.Spider;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Spider 管理（先可以忽略此类）
+ *
+ * @author kissx
+ */
 public class SpiderManage {
 
     private static SpiderManage spiderManage = new SpiderManage();
     private List<Spider> spiders = new ArrayList<>();
 
-    private SpiderManage(){}
+    private SpiderManage() {
+    }
 
-    public static SpiderManage getInstance(){
+    public static SpiderManage getInstance() {
         return spiderManage;
     }
 
@@ -29,7 +35,6 @@ public class SpiderManage {
             }
         }
     }
-
 
 
 }
