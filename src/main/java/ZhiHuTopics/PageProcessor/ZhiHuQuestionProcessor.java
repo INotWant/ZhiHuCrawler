@@ -1,7 +1,7 @@
 package ZhiHuTopics.PageProcessor;
 
-import ZhiHuTopics.other.SpiderManage;
-import ZhiHuTopics.other.Statistics;
+import ZhiHuTopics.manager.SpiderManage;
+import ZhiHuTopics.manager.Statistics;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Site;
@@ -15,15 +15,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * {@link ZhiHuQuestionProcessor} 类实现 {@link PageProcessor} 接口，作为页面处理类，主要有两个中处理：
+ * （一）处理问题页面（e.g. https://www.zhihu.com/question/66284095）,此时会获取 question 对应的标题、关注数、浏览数等
+ * （二）处理 post 请求返回的 Json 数据，产生两种新的 url。一种，是新的 post 请求用以爬取下一个偏移的 question ，请求返回同样是 Json 数据。另一种，是问题 url （e.g. https://www.zhihu.com/question/66284095）。
  *
  * @author kissx on 2017/9/18.
  */
-public class ZhihuMorePageProcessor extends BasePageProcessImp implements PageProcessor {
+public class ZhiHuQuestionProcessor extends BasePageProcessImp implements PageProcessor {
 
     private String topic_id;
 
-    public ZhihuMorePageProcessor(String topic_id) {
+    /**
+     * @param topic_id 指定 topic 对应的 topicId
+     */
+    public ZhiHuQuestionProcessor(String topic_id) {
         this.topic_id = topic_id;
     }
 
@@ -33,9 +38,13 @@ public class ZhihuMorePageProcessor extends BasePageProcessImp implements PagePr
             .setTimeOut(10000)
             .setCharset("UTF-8");
 
+    /**
+     * 页面处理主方法（包含两种处理，见上述）
+     */
     @Override
     public void process(Page page) {
         String URL_QUESTION = "https://www\\.zhihu\\.com/question/.*";
+        // if 条件满足，则进行第一种，即问题页面处理
         if (page.getUrl().regex(URL_QUESTION).match()) {
             page.putField("标题", page.getHtml().xpath("//h1[@class=\"QuestionHeader-title\"]/text()").get());
             List<String> list = page.getHtml().xpath("//div[@class=\"NumberBoard-value\"]/text()").all();
@@ -51,6 +60,7 @@ public class ZhihuMorePageProcessor extends BasePageProcessImp implements PagePr
             } else
                 page.setSkip(true);
         } else {
+            // 以下进行第二种页面处理
             Html html = jsonProcess(page);
             List<String> urlList = html.xpath("//a[@class=\"question_link\"]/@href").all();
             List<String> newUrlList = new ArrayList<>();
