@@ -49,12 +49,10 @@ public class Crawler {
      * @param pipelines 定制输出（详见 webMagic）
      */
     public void crawlingTopic(String url, Pipeline... pipelines) {
-        String fileName = url.substring(url.lastIndexOf("#") + 1, url.length()) + ".txt";
-        Spider spider = Spider.create(new ZhiHuTopicPageProcessor(fileName, cookie))
-                .addUrl(url);
-        for (Pipeline pipeline : pipelines) {
-            spider.addPipeline(pipeline);
-        }
+        String topicName = url.substring(url.lastIndexOf("#") + 1, url.length()) + ".txt";
+        Spider spider = Spider.create(new ZhiHuTopicPageProcessor(topicName, cookie, pipelines))
+                .addUrl(url)
+                .addPipeline(new ConsolePipeline());
         spider.start();
     }
 
@@ -67,6 +65,6 @@ public class Crawler {
         crawler.crawlingTopic("https://www.zhihu.com/topic#软件工程");
 //        crawler.crawlingTopic("https://www.zhihu.com/topic#Java");
         // 用于控制爬取的数量（获得的总 question 数目为 15 个）
-        Statistics.getInstance(15);
+//        Statistics.getInstance(15);
     }
 }

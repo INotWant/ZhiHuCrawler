@@ -1,16 +1,17 @@
 package ZhiHuTopics.PageProcessor;
 
-import ZhiHuTopics.PipeLine.OneFilePipeline;
 import ZhiHuTopics.manager.SpiderManage;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
-import us.codecraft.webmagic.pipeline.ConsolePipeline;
+import us.codecraft.webmagic.pipeline.Pipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.utils.HttpConstant;
 
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,14 +24,16 @@ public class ZhiHuTopicPageProcessor extends BasePageProcessImp implements PageP
 
     private String topicName;
     private Site site;
+    private List<Pipeline> pipelines = new ArrayList<>();
 
     /**
      * 构造 ZhiHuTopicPageProcessor 类，即 topic 首页（第一个页面）处理类。一般生成匿名对象为 {@link us.codecraft.webmagic.Spider} 类构造提供参数。
      *
      * @param topicName 指定 topic
      * @param cookie    “z_c0” 对应的 Cookie 值
+     * @param pipelines 定制输出
      */
-    public ZhiHuTopicPageProcessor(String topicName, String cookie) {
+    public ZhiHuTopicPageProcessor(String topicName, String cookie, Pipeline... pipelines) {
         this.topicName = topicName;
         site = Site.me()
                 .setRetrySleepTime(10)
@@ -39,6 +42,7 @@ public class ZhiHuTopicPageProcessor extends BasePageProcessImp implements PageP
                 .setCharset("UTF-8")
                 .setDomain("www.zhihu.com")
                 .addCookie("z_c0", cookie);
+        Collections.addAll(this.pipelines, pipelines);
     }
 
     /**
@@ -56,9 +60,10 @@ public class ZhiHuTopicPageProcessor extends BasePageProcessImp implements PageP
             Request request = new Request("https://www.zhihu.com/node/TopicFeedList?method=next&params=" + URLEncoder.encode("{\"offset\":" + 0 + ",\"topic_id\":" + topic_id + ",\"feed_type\":\"smart_feed\"}", "utf-8"));
             request.setMethod(HttpConstant.Method.POST);
             Spider spider = Spider.create(new ZhiHuQuestionProcessor(topic_id))
-                    .addPipeline(new ConsolePipeline())
-                    .addPipeline(new OneFilePipeline(topicName))
                     .addRequest(request);
+            for (Pipeline pipeline : pipelines) {
+                spider.addPipeline(pipeline);
+            }
             Thread.sleep(1000);
             SpiderManage spiderManage = SpiderManage.getInstance();
             spiderManage.addSpider(spider);
