@@ -1,12 +1,12 @@
 package VAnalysis.pageProcess;
 
 import VAnalysis.entity.VUser;
-import VAnalysis.utils.SessionFactoryUtils;
-import VAnalysis.utils.Utils;
 import ZhiHuTopics.manager.SpiderManage;
 import ZhiHuTopics.manager.Statistics;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
@@ -65,17 +65,26 @@ public class VUserPageProcess implements PageProcessor {
                     vUser.setFollowers(followers);
                     vUser.setFollowing(following);
                     vUser.setHomePage(homePage);
-                    Session currentSession = SessionFactoryUtils.getCurrentSession();
-                    Transaction transaction = currentSession.getTransaction();
-                    if (!transaction.isActive())
-                        transaction = currentSession.beginTransaction();
+
+                    SessionFactory sf = new Configuration().configure().buildSessionFactory();
+                    Session currentSession = sf.openSession();
                     Query query = currentSession.createQuery("from VUser where userName = ?");
                     query.setParameter(0, userName);
                     List list = query.list();
-                    if (list == null || list.size() == 0) {
-                        Utils.saveObj(currentSession, transaction, vUser);
-                        if (statistics != null)
-                            statistics.increase();
+                    Transaction transaction = currentSession.beginTransaction();
+                    try {
+                        if (list == null || list.size() == 0) {
+                            currentSession.save(vUser);
+                            transaction.commit();
+                            if (statistics != null)
+                                statistics.increase();
+                        }
+                    } catch (Exception e) {
+                        transaction.rollback();
+                        e.printStackTrace();
+                    } finally {
+                        currentSession.close();
+                        sf.close();
                     }
                     // 获取关注列表
                     int offset = 0;
@@ -99,7 +108,10 @@ public class VUserPageProcess implements PageProcessor {
                 }
             }
         } else
-            SpiderManage.getInstance().deleteAll();
+            SpiderManage.getInstance().
+
+                    deleteAll();
+
     }
 
     @Override

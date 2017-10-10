@@ -2,9 +2,10 @@ package VAnalysis.pageProcess;
 
 import VAnalysis.entity.Answer;
 import VAnalysis.entity.VUser;
-import VAnalysis.utils.SessionFactoryUtils;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
@@ -12,8 +13,6 @@ import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Json;
 
 import java.util.List;
-
-import static VAnalysis.utils.Utils.saveObj;
 
 /**
  * @author kissx on 2017/9/25.
@@ -52,10 +51,8 @@ public class VAnswerPageProcess implements PageProcessor {
             }
         } else {
             VUser vUser = null;
-            Session session = SessionFactoryUtils.getCurrentSession();
-            Transaction transaction = session.getTransaction();
-            if (!transaction.isActive())
-                transaction = session.beginTransaction();
+            SessionFactory sf = new Configuration().configure().buildSessionFactory();
+            Session session = sf.openSession();
             Query query = session.createQuery("from VUser where userName = ?");
             String userName = page.getHtml().xpath("//a[@class=\"UserLink-link\"]/img/@alt").get();
             query.setParameter(0, userName);
@@ -81,7 +78,17 @@ public class VAnswerPageProcess implements PageProcessor {
                 answer.setQuestion(question);
                 String aContent = page.getHtml().xpath("//span[@class=\"RichText CopyrightRichText-richText\"]").get();
                 answer.setAnswerContent(aContent);
-                saveObj(session, transaction, answer);
+                Transaction transaction = session.beginTransaction();
+                try {
+                    session.save(answer);
+                    transaction.commit();
+                } catch (Exception e) {
+                    transaction.rollback();
+                    e.printStackTrace();
+                } finally {
+                    session.close();
+                    sf.close();
+                }
             }
         }
     }
