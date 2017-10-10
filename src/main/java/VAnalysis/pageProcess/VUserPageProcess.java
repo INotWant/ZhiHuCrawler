@@ -27,26 +27,25 @@ public class VUserPageProcess implements PageProcessor {
     private final String MID = "/followees?include=data%5B*%5D.answer_count%2Carticles_count%2Cgender%2Cfollower_count%2Cis_followed%2Cis_following%2Cbadge%5B%3F(type%3Dbest_answerer)%5D.topics&offset=";
     private final String TAIL = "&limit=20";
 
-    private int fCount = 50000;       // 关注人数
-    private String cookie;
+    private Site site;
+
+    private int fCount;       // 关注人数
 
     public VUserPageProcess(int fCount, String cookie) {
         this.fCount = fCount;
-        this.cookie = cookie;
+        site = Site
+                .me()
+                .setTimeOut(10000)
+                .setRetrySleepTime(10)
+                .setSleepTime(2000)
+                .setCharset("UTF-8")
+                .setDomain("www.zhihu.com")
+                .addCookie("z_c0", cookie);
     }
 
     public VUserPageProcess(String cookie) {
-        this.cookie = cookie;
+        this(50000, cookie);
     }
-
-    private Site site = Site
-            .me()
-            .setTimeOut(10000)
-            .setRetrySleepTime(10)
-            .setSleepTime(2000)
-            .setCharset("UTF-8")
-            .setDomain("www.zhihu.com")
-            .addCookie("z_c0", cookie);
 
     @Override
     public void process(Page page) {
