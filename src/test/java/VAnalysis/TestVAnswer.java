@@ -50,7 +50,7 @@ public class TestVAnswer {
     public void test() {
         List<String> userURL = getUserURL(100);
         String[] urls = userURL.toArray(new String[userURL.size()]);
-        Spider spider = Spider.create(new VAnswerPageProcess())
+        Spider spider = Spider.create(new VAnswerPageProcess("Mi4xZWNrSUFnQUFBQUFBWU1KM2tzeGtEQmNBQUFCaEFsVk43c2JtV1FEYS1JcFhxQklPWDZoZ2JtRmhFTTdtNGV0WDhn|1505704430|ae5934e4cddf1b5c62347e78e0cadb9cd15a4ce0"))
                 .addUrl(urls)
                 .addPipeline(new ConsolePipeline());
         spider.run();
