@@ -59,7 +59,7 @@ public class Crawler {
 
     public static void main(String[] args) {
         // 案例爬取 软件工程、Java 这两个话题下的 question
-        String cookie = "Mi4xZWNrSUFnQUFBQUFBWU1KM2tzeGtEQmNBQUFCaEFsVk43c2JtV1FEYS1JcFhxQklPWDZoZ2JtRmhFTTdtNGV0WDhn|1505704430|ae5934e4cddf1b5c62347e78e0cadb9cd15a4ce0";
+        String cookie = "您的 cookie";
         Crawler crawler = new Crawler(cookie);
         // 注意，这里可以多次调用 crawlingTopic() 来爬取不同话题，它们会并发地执行。但不建议开启多个，否则知乎会屏蔽你的 ip。
         crawler.crawlingTopic("https://www.zhihu.com/topic#软件工程");
